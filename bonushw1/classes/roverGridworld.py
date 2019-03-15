@@ -29,6 +29,10 @@ class RoverGridWorldEnv():
         self.value_funcs = {(0, s): self.neg_inf for s in range(49)}
         self.value_funcs[(0, 0)] = 0
 
+        # initialize action list for each value function
+        self.value_funcs_acts = {(0, s): [] for s in range(49)}
+        self.value_funcs_acts[(0, 0)] = 0
+
     def step(self, state, action):
 
         # unflatten state
@@ -87,6 +91,20 @@ class RoverGridWorldEnv():
             v = r + self.get_value(T - 1, splus1)
             if v > temp_v:
                 temp_v = v
+                temp_a = a
 
         self.value_funcs[(T,s)] = temp_v
+        self.value_funcs_acts[(T,s)] = temp_a
+
         return temp_v
+
+    def get_path(self, T, state):
+        path = []
+        s = state
+        for t in range(T, 0, -1):
+            a = self.value_funcs_acts[(t,s)]
+            path.append(a)
+            splus1, _ = self.step(s, a)
+            s = splus1
+            
+        return path

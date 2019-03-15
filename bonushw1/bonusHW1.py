@@ -4,7 +4,6 @@
 # 14 March 2019
 
 import numpy as np
-import matplotlib.pyplot as plt
 
 from classes.roverGridworld import RoverGridWorldEnv
 
@@ -21,11 +20,14 @@ reward_for_action = np.reshape(reward_for_action, (5, -1))
 # part a
 env.get_value(6,42)
 print(env.value_funcs[(6,42)])
+print(env.get_path(6,42))
 
 # part b
 env.get_value(10,42)
 print(env.value_funcs[(10,42)])
+print(env.get_path(10,42))
 
 # part c
 env.get_value(20,42)
 print(env.value_funcs[(20,42)])
+print(env.get_path(20,42))

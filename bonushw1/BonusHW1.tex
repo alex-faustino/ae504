@@ -1,0 +1,68 @@
+\documentclass[12pt,letterpaper]{article}
+\usepackage{geometry}
+\usepackage{enumerate}
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{array}
+
+\title{AE504: Bonus Homework Assignment 1}
+\author{Alex Faustino}
+
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\begin{enumerate}
+    \item[\textbf{Problem 1}.] {
+    For each state and each of the five possible actions, determine the reward that the agent achieves by performing the action at the corresponding state. (Note that the reward can be written as the negative of a cost.) Provide your answer in the form of five 7 X 7 tables, each for one of the agent’s actions.
+
+    You should assume that the actions which would make the agent leave the state space (e.g., go north from the top left corner) incur a reward of $-\infty$.
+    }
+    \item[\textbf{Solution:}] {
+    Consider a polynomial function $f:\mathbb{R}^2\to\mathbb{R}$ that is given by \begin{equation*}
+        f(x,y)=(1-xy)^2+x^2
+    \end{equation*}
+    Because of the squared terms, $f$ is clearly strictly positive. We're interested in the set of solutions, $A$, that satisfy $xy=1$ where $y \gg x$. As $x\to0$, $f$ approaches but never achieves $0$, so $0<a'$ for all $a'\in A$. And there exists an $a'$ for all $\epsilon > 0$ s.t. $a'< 0 + \epsilon$. Therefore, $f$ is bounded below by $\inf f = 0$ that it never achieves.
+    }
+    
+    \item[\textbf{Problem 2}.] {
+    Let $f:\mathbb{R}^2\to\mathbb{R}$ be given by $f(x,y)=2x^3+3y^2+3x^2y-24y$. 
+    \begin{enumerate}
+        \item[\textbf{(a)}] Find all local minima of $f$ or prove that no such minima exist.
+        \item[\textbf{(b)}] Find all global minima of $f$ or prove that no such minima exist.
+    \end{enumerate}
+    }
+    \item[\textbf{Solution:}] {
+    We find local minima by first identifying candidate points where $\nabla f(x,y) = 0$. 
+    \begin{equation*}
+        \nabla f(x,y) = \begin{bmatrix} 6x^2+6xy \\ 6y^2+3x^2-24\end{bmatrix}
+    \end{equation*}
+    We find that $\nabla f(x,y) = 0$ at four points: (0,$\pm 2$), ($\frac{2\sqrt{6}}{3}$, $-\frac{2\sqrt{6}}{3}$), and ($-\frac{2\sqrt{6}}{3}$, $\frac{2\sqrt{6}}{3}$). If the Hessian of $f$, $Hf(x,y)$, is positive definite at a candidate point then it is a local minimum. We determine that $Hf(x,y)>0$ if all its eigenvalues have positive real part.
+    \begin{equation*}
+        Hf(x,y) = \begin{bmatrix} 12x+6y & 6x \\ 6x & 12y \end{bmatrix}
+    \end{equation*}
+    }
+    We find that only $Hf(0,2)>0$ therefore $f(x,y)$ has one local minimum $f(0,2)=-36$. We also find that $Hf(0,-2)<0$ and that as $x, y \to -\infty$ so does $f(x,y)$ meaning a global minimum does not exist.
+
+    \item[\textbf{Problem 3}.] {
+    Let $f:\mathbb{R}^2\to\mathbb{R}$ be defined by $f(x,y)=\sin^2(x)+\arctan^3(xy)$. For every positive integer $n$ and every $M\geq 0$, find $$\min_{(x,y)\in S_{n,M}} f(x,y)\textrm{,}$$ where $S_{n,M}=[0,n \pi]\times [-M,M]$, and determine where this minimum is achieved.
+    }
+    \item[\textbf{Solution:}] {
+    We begin our analysis by noting that when unconstrained $\sin^2(x)$ is bounded by $[0,1]$, has a minimum of $0$, and that minimum is achieved at $0$ and every integer multiple of $\pi$. We also note that when unconstrained $\arctan^3(xy)$ is bounded by $(-\frac{\pi^3}{8},\frac{\pi^3}{8})$ and has no minimum but an infimum of $-\frac{\pi^3}{8}$ which is never achieved.
+    
+    It is then clear that when $f(x,y)$ is constrained to $S_{n,M}=[0,n \pi]\times [-M,M]$ that it will achieve its minimum when $\sin^2(x)=0$ and $\arctan^3(xy)\to -\frac{\pi^3}{8}$. Therefore, $\min f(x,y)=\arctan^3(-n \pi M)$ for all positive integer $n$ and every $M\geq 0$.
+    }
+    
+    \item[\textbf{Problem 4}.] {
+    As discussed in class, the global maximum of $f(x,y)=xy(1-x-y)$ on $S=\{(x,y,z)~|~x\geq 0, y\geq 0, x+y\leq 1\}$ can be found applying the first-order condition and finding the maximum among the four candidates. However, it can be shown that $\nabla^2 f(x,y)\not\geq 0$ for all candidate points. Nevertheless, $f$ has a global minimum on $S$. 
+    \begin{enumerate}
+        \item[\textbf{(a)}] Explain why the same method that worked for a maximum does not work for a minimum.
+        \item[\textbf{(b)}] Find $\min_{(x,y)\in S}f(x,y)$ and determine all points at which it is achieved.
+    \end{enumerate}
+    }
+    \item[\textbf{Solution:}] {
+    The second-order condition was satisfied for the global maximum on $S$ because it also a local maximum for the unconstrained problem. This is not the case for the global minimums on $S$. As we discussed in class, $\min_{(x,y)\in S}f(x,y)=0$ on the lines $x=0$, $y=0$, and $x+y=1$. Since minimums on $S$ are achieved on the bounds of the set it is only necessary that their directional derivatives are increasing towards the interior.
+    }
+\end{enumerate}
+
+\end{document}

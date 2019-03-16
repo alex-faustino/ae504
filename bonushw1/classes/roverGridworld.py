@@ -3,7 +3,7 @@ import math
 
 class RoverGridWorldEnv():
 
-    def __init__(self):
+    def __init__(self, size, heights):
         # set action space
 		# 0 = stay
 		# 1 = North
@@ -13,15 +13,8 @@ class RoverGridWorldEnv():
         self.action_space = range(5)
 
         # creat flattened state space with heights
-        heights = [.4, .6, .4, 4.9, .3, 1, 2.4,
-                   9, 7.2, .8, .4, 3, .4, 3.5,
-                   2.4, 5.9, 4.2, 7.9, 8.2, 2.4, 0,
-                   7.3, 3.6, 10.7, 9.8, 2.4, 3, 4.8,
-                   .5, .3, 5.4, 9.2, 2.4, 1.4, .3,
-                   5.5, 4.5, 3.9, 7.6, 5.2, 5.7, 1.3,
-                   0, 1.3, .2, .2, 2.1, 1, .6]
-
-        self.state_space = list(zip(range(49), heights))
+        self.size = size
+        self.state_space = list(zip(range(size**2), heights))
 
         # initialize value function storage
         # define negative infinity
@@ -38,11 +31,12 @@ class RoverGridWorldEnv():
         # unflatten state
         a = action
         s = state
-        x1 = s % 7
-        x2 = s // 7
+        size = self.size
+        x1 = s % size
+        x2 = s // size
 
         # handle edge cases
-        if (x1 == 0 and a == 4) or (x1 == 6 and a == 2) or (x2 == 0 and a == 3) or (x2 == 6 and a == 1):
+        if (x1 == 0 and a == 4) or (x1 == (size - 1) and a == 2) or (x2 == 0 and a == 3) or (x2 == (size - 1) and a == 1):
             r = self.neg_inf
             splus1 = s
         # normal cases
@@ -51,13 +45,13 @@ class RoverGridWorldEnv():
                 r = 0
                 splus1 = s
             if a == 1:
-                splus1 = s + 7
+                splus1 = s + size
                 r = self.get_reward(s, splus1)
             if a == 2:
                 splus1 = s + 1
                 r = self.get_reward(s, splus1)
             if a == 3:
-                splus1 = s - 7
+                splus1 = s - size
                 r = self.get_reward(s, splus1)
             if a == 4:
                 splus1 = s - 1
@@ -72,8 +66,9 @@ class RoverGridWorldEnv():
     def get_value(self, T, state):
         # unflatten state
         s = state
-        x1 = s % 7
-        x2 = s // 7
+        size = self.size
+        x1 = s % size
+        x2 = s // size
 
         # check if value function has already been solved for
         if (T,s) in self.value_funcs.keys():
